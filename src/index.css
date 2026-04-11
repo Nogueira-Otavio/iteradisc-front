@@ -1,13 +1,384 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap');
+
+/* ===========================
+   VARIÁVEIS DO TEMA RETRÔ
+=========================== */
+:root {
+  --cor-fundo: #0F1923;
+  --cor-fundo-card: #162030;
+  --cor-fundo-sidebar: #0A1219;
+  --cor-laranja: #C8873A;
+  --cor-laranja-hover: #E09A4A;
+  --cor-creme: #F0E6D3;
+  --cor-creme-suave: #C9B99A;
+  --cor-texto: #F0E6D3;
+  --cor-texto-secundario: #8A9BAD;
+  --cor-borda: #1E3248;
+  --cor-borda-laranja: #C8873A;
+  --cor-erro: #C0392B;
+  --cor-sucesso: #27AE60;
+  --cor-input-fundo: #0D1B2A;
+
+  --fonte-titulo: 'Playfair Display', Georgia, serif;
+  --fonte-corpo: 'Crimson Text', Georgia, serif;
+  --fonte-mono: 'Space Mono', monospace;
+
+  --sombra-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --sombra-laranja: 0 0 20px rgba(200, 135, 58, 0.15);
+  --raio: 4px;
+  --transicao: all 0.25s ease;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ===========================
+   RESET E BASE
+=========================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fonte-corpo);
+  font-size: 1.05rem;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===========================
+   TIPOGRAFIA
+=========================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--fonte-titulo);
+  color: var(--cor-creme);
+  line-height: 1.2;
+}
+
+h1 { font-size: 2.4rem; }
+h2 { font-size: 1.9rem; }
+h3 { font-size: 1.5rem; }
+
+p {
+  color: var(--cor-creme-suave);
+  font-size: 1.05rem;
+}
+
+a {
+  color: var(--cor-laranja);
+  text-decoration: none;
+  transition: var(--transicao);
+}
+
+a:hover {
+  color: var(--cor-laranja-hover);
+}
+
+/* ===========================
+   LABEL DE SEÇÃO (UPPERCASE)
+=========================== */
+.secao-label {
+  font-family: var(--fonte-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cor-laranja);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* ===========================
+   BOTÕES
+=========================== */
+.btn-retro {
+  font-family: var(--fonte-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.6rem;
+  border-radius: var(--raio);
+  border: none;
+  cursor: pointer;
+  transition: var(--transicao);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-retro-primario {
+  background-color: var(--cor-laranja);
+  color: #0F1923;
+  font-weight: 700;
+}
+
+.btn-retro-primario:hover {
+  background-color: var(--cor-laranja-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--sombra-laranja);
+}
+
+.btn-retro-secundario {
+  background-color: transparent;
+  color: var(--cor-creme);
+  border: 1px solid var(--cor-borda);
+}
+
+.btn-retro-secundario:hover {
+  border-color: var(--cor-laranja);
+  color: var(--cor-laranja);
+}
+
+.btn-retro-perigo {
+  background-color: transparent;
+  color: var(--cor-erro);
+  border: 1px solid var(--cor-erro);
+}
+
+.btn-retro-perigo:hover {
+  background-color: var(--cor-erro);
+  color: white;
+}
+
+/* ===========================
+   CARDS
+=========================== */
+.card-retro {
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  border-left: 3px solid var(--cor-laranja);
+  padding: 1.5rem;
+  box-shadow: var(--sombra-card);
+  transition: var(--transicao);
+}
+
+.card-retro:hover {
+  border-color: var(--cor-laranja);
+  box-shadow: var(--sombra-laranja);
+  transform: translateY(-2px);
+}
+
+/* ===========================
+   INPUTS E FORMULÁRIOS
+=========================== */
+.input-retro {
+  width: 100%;
+  background-color: var(--cor-input-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  color: var(--cor-creme);
+  font-family: var(--fonte-corpo);
+  font-size: 1rem;
+  padding: 0.65rem 1rem;
+  transition: var(--transicao);
+  outline: none;
+}
+
+.input-retro:focus {
+  border-color: var(--cor-laranja);
+  box-shadow: 0 0 0 3px rgba(200, 135, 58, 0.12);
+}
+
+.input-retro::placeholder {
+  color: var(--cor-texto-secundario);
+  font-style: italic;
+}
+
+.label-retro {
+  font-family: var(--fonte-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cor-texto-secundario);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.form-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1.2rem;
+}
+
+/* ===========================
+   BADGES / TAGS
+=========================== */
+.badge-retro {
+  font-family: var(--fonte-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.badge-admin {
+  background-color: rgba(200, 135, 58, 0.15);
+  color: var(--cor-laranja);
+  border: 1px solid rgba(200, 135, 58, 0.3);
+}
+
+.badge-cliente {
+  background-color: rgba(39, 174, 96, 0.12);
+  color: var(--cor-sucesso);
+  border: 1px solid rgba(39, 174, 96, 0.25);
+}
+
+.badge-inativo {
+  background-color: rgba(192, 57, 43, 0.12);
+  color: var(--cor-erro);
+  border: 1px solid rgba(192, 57, 43, 0.25);
+}
+
+/* ===========================
+   TABELAS
+=========================== */
+.tabela-retro {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--fonte-corpo);
+}
+
+.tabela-retro thead th {
+  font-family: var(--fonte-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cor-laranja);
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--cor-borda);
+  text-align: left;
+}
+
+.tabela-retro tbody tr {
+  border-bottom: 1px solid rgba(30, 50, 72, 0.6);
+  transition: var(--transicao);
+}
+
+.tabela-retro tbody tr:hover {
+  background-color: rgba(200, 135, 58, 0.04);
+}
+
+.tabela-retro tbody td {
+  padding: 0.85rem 1rem;
+  color: var(--cor-creme-suave);
+  font-size: 1rem;
+}
+
+/* ===========================
+   DIVISOR DECORATIVO
+=========================== */
+.divisor-retro {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--cor-laranja),
+    transparent
+  );
+  margin: 1.5rem 0;
+  opacity: 0.4;
+}
+
+/* ===========================
+   MENSAGENS DE FEEDBACK
+=========================== */
+.alerta-erro {
+  background-color: rgba(192, 57, 43, 0.1);
+  border: 1px solid rgba(192, 57, 43, 0.3);
+  border-left: 3px solid var(--cor-erro);
+  color: #E74C3C;
+  padding: 0.75rem 1rem;
+  border-radius: var(--raio);
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.alerta-sucesso {
+  background-color: rgba(39, 174, 96, 0.1);
+  border: 1px solid rgba(39, 174, 96, 0.3);
+  border-left: 3px solid var(--cor-sucesso);
+  color: var(--cor-sucesso);
+  padding: 0.75rem 1rem;
+  border-radius: var(--raio);
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   LOADING SPINNER
+=========================== */
+.spinner-retro {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--cor-borda);
+  border-top-color: var(--cor-laranja);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+.centralizador {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+/* ===========================
+   SCROLLBAR CUSTOMIZADA
+=========================== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cor-fundo-sidebar);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cor-borda);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cor-laranja);
+}
+
+/* ===========================
+   UTILITÁRIOS
+=========================== */
+.texto-laranja { color: var(--cor-laranja); }
+.texto-creme { color: var(--cor-creme); }
+.texto-secundario { color: var(--cor-texto-secundario); }
+.texto-erro { color: var(--cor-erro); }
+.texto-sucesso { color: var(--cor-sucesso); }
+
+.flex { display: flex; }
+.flex-coluna { display: flex; flex-direction: column; }
+.alinhar-centro { align-items: center; }
+.justificar-entre { justify-content: space-between; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }
+
+.w-100 { width: 100%; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }

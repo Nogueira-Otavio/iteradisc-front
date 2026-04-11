@@ -1,0 +1,39 @@
+.topbar {
+  height: 60px;
+  background-color: var(--cor-fundo-card);
+  border-bottom: 1px solid var(--cor-borda);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: fixed;
+  top: 0;
+  left: 240px;
+  right: 0;
+  z-index: 99;
+}
+
+.titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 1.2rem;
+  color: var(--cor-creme);
+  font-weight: 600;
+}
+
+.direita {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.saudacao {
+  font-family: var(--fonte-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--cor-texto-secundario);
+  text-transform: uppercase;
+}
+
+.destaque {
+  color: var(--cor-laranja);
+}

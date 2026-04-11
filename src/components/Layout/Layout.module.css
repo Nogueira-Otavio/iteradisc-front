@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--cor-fundo);
+}
+
+.conteudo {
+  margin-left: 240px;
+  margin-top: 60px;
+  flex: 1;
+  padding: 2rem;
+  min-height: calc(100vh - 60px);
+}

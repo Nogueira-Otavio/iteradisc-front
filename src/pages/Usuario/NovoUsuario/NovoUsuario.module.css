@@ -1,0 +1,53 @@
+.pagina {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--cor-fundo);
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-top: 3px solid var(--cor-laranja);
+  border-radius: var(--raio);
+  padding: 2.5rem;
+  box-shadow: var(--sombra-card);
+}
+
+.logoArea {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  height: 48px;
+  object-fit: contain;
+}
+
+.titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 1.6rem;
+  color: var(--cor-creme);
+  margin-bottom: 0.25rem;
+}
+
+.acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.loginTexto {
+  text-align: center;
+  margin-top: 1.25rem;
+  color: var(--cor-texto-secundario);
+  font-size: 0.95rem;
+}
+
+.loginTexto a {
+  color: var(--cor-laranja);
+}

@@ -1,0 +1,92 @@
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background-color: var(--cor-fundo-sidebar);
+  border-right: 1px solid var(--cor-borda);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.logoArea {
+  padding: 1.5rem 1.25rem;
+  border-bottom: 1px solid var(--cor-borda);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo {
+  height: 36px;
+  object-fit: contain;
+}
+
+.nav {
+  flex: 1;
+  padding: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.secaoTitulo {
+  font-family: var(--fonte-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cor-texto-secundario);
+  padding: 0.75rem 1.25rem 0.25rem;
+  opacity: 0.6;
+}
+
+.rodape {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--cor-borda);
+}
+
+.usuarioInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.usuarioNome {
+  font-family: var(--fonte-titulo);
+  font-size: 0.95rem;
+  color: var(--cor-creme);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.usuarioPerfil {
+  font-family: var(--fonte-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cor-laranja);
+}
+
+.btnSair {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  color: var(--cor-texto-secundario);
+  font-family: var(--fonte-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: var(--transicao);
+}
+
+.btnSair:hover {
+  border-color: var(--cor-erro);
+  color: var(--cor-erro);
+}

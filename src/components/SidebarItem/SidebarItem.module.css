@@ -1,0 +1,37 @@
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1.25rem;
+  color: var(--cor-texto-secundario);
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: var(--transicao);
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+
+.item:hover {
+  color: var(--cor-creme);
+  background-color: rgba(200, 135, 58, 0.05);
+  border-left-color: rgba(200, 135, 58, 0.3);
+}
+
+.ativo {
+  color: var(--cor-laranja);
+  background-color: rgba(200, 135, 58, 0.08);
+  border-left-color: var(--cor-laranja);
+}
+
+.ativo:hover {
+  color: var(--cor-laranja-hover);
+}
+
+.icone {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
