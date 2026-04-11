@@ -1,0 +1,25 @@
+import { HTTPClient } from "../client";
+
+const VendaService = {
+  async criarAsync(venda) {
+    const response = await HTTPClient.post("/Venda/Criar", venda);
+    return response.data;
+  },
+
+  async obterAsync(vendaId) {
+    const response = await HTTPClient.get(`/Venda/Obter/${vendaId}`);
+    return response.data;
+  },
+
+  async listarAsync() {
+    const response = await HTTPClient.get("/Venda/Listar");
+    return response.data;
+  },
+
+  async historicoClienteAsync(usuarioId) {
+    const response = await HTTPClient.get(`/Venda/HistoricoCliente?usuarioId=${usuarioId}`);
+    return response.data;
+  },
+};
+
+export default VendaService;
