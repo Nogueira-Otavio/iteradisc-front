@@ -1,0 +1,61 @@
+.cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.cabecalhoTitulo h2 {
+  font-family: var(--fonte-titulo);
+  font-size: 1.8rem;
+  color: var(--cor-creme);
+  margin-bottom: 0.25rem;
+}
+
+.cabecalhoTitulo p {
+  color: var(--cor-texto-secundario);
+  font-style: italic;
+}
+
+.tabelaContainer {
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+
+.acoes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btnIcone {
+  background: transparent;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  color: var(--cor-texto-secundario);
+  font-size: 0.8rem;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  transition: var(--transicao);
+  font-family: var(--fonte-mono);
+}
+
+.btnIcone:hover {
+  border-color: var(--cor-laranja);
+  color: var(--cor-laranja);
+}
+
+.btnIconePerigo:hover {
+  border-color: var(--cor-erro);
+  color: var(--cor-erro);
+}
+
+.vazio {
+  text-align: center;
+  padding: 4rem;
+  color: var(--cor-texto-secundario);
+  font-style: italic;
+}

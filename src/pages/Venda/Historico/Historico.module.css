@@ -1,0 +1,128 @@
+.cabecalho {
+  margin-bottom: 2rem;
+}
+
+.cabecalho h2 {
+  font-family: var(--fonte-titulo);
+  font-size: 1.8rem;
+  color: var(--cor-creme);
+  margin-bottom: 0.25rem;
+}
+
+.cabecalho p {
+  color: var(--cor-texto-secundario);
+  font-style: italic;
+}
+
+.resumo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.resumoCard {
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-left: 3px solid var(--cor-laranja);
+  border-radius: var(--raio);
+  padding: 1rem 1.5rem;
+  flex: 1;
+  min-width: 160px;
+}
+
+.resumoLabel {
+  font-family: var(--fonte-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cor-texto-secundario);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.resumoValor {
+  font-family: var(--fonte-titulo);
+  font-size: 1.5rem;
+  color: var(--cor-laranja);
+}
+
+.tabelaContainer {
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.vendaHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: var(--transicao);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.vendaHeader:hover {
+  background-color: rgba(200, 135, 58, 0.04);
+}
+
+.vendaHeaderInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.vendaId {
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  color: var(--cor-texto-secundario);
+}
+
+.vendaData {
+  font-family: var(--fonte-mono);
+  font-size: 0.82rem;
+  color: var(--cor-texto-secundario);
+}
+
+.vendaTotal {
+  font-family: var(--fonte-mono);
+  font-size: 1rem;
+  color: var(--cor-laranja);
+  font-weight: 700;
+}
+
+.vendaSetinha {
+  font-size: 0.8rem;
+  color: var(--cor-texto-secundario);
+  transition: var(--transicao);
+}
+
+.vendaSetinhaAberta {
+  transform: rotate(180deg);
+}
+
+.itensContainer {
+  padding: 1rem 1.25rem;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.vazio {
+  text-align: center;
+  padding: 4rem;
+  color: var(--cor-texto-secundario);
+}
+
+.vazioIcone {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.vazioTexto {
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}

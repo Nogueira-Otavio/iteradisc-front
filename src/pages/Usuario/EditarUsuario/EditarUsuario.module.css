@@ -1,0 +1,35 @@
+.container {
+  max-width: 600px;
+}
+
+.cabecalho {
+  margin-bottom: 2rem;
+}
+
+.cabecalho h2 {
+  font-family: var(--fonte-titulo);
+  font-size: 1.8rem;
+  color: var(--cor-creme);
+  margin-bottom: 0.25rem;
+}
+
+.cabecalho p {
+  color: var(--cor-texto-secundario);
+  font-style: italic;
+}
+
+.card {
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-left: 3px solid var(--cor-laranja);
+  border-radius: var(--raio);
+  padding: 2rem;
+  box-shadow: var(--sombra-card);
+}
+
+.acoes {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  justify-content: flex-end;
+}

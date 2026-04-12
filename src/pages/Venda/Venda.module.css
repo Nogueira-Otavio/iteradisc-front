@@ -1,0 +1,103 @@
+.cabecalho {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.cabecalhoTitulo h2 {
+  font-family: var(--fonte-titulo);
+  font-size: 1.8rem;
+  color: var(--cor-creme);
+  margin-bottom: 0.25rem;
+}
+
+.cabecalhoTitulo p {
+  color: var(--cor-texto-secundario);
+  font-style: italic;
+}
+
+.filtros {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: 1.25rem;
+}
+
+.filtroGrupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.tabelaContainer {
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+
+.total {
+  font-family: var(--fonte-mono);
+  color: var(--cor-laranja);
+  font-weight: 700;
+}
+
+.data {
+  font-family: var(--fonte-mono);
+  font-size: 0.82rem;
+  color: var(--cor-texto-secundario);
+}
+
+.itens {
+  font-family: var(--fonte-mono);
+  font-size: 0.82rem;
+  color: var(--cor-texto-secundario);
+}
+
+.vazio {
+  text-align: center;
+  padding: 4rem;
+  color: var(--cor-texto-secundario);
+  font-style: italic;
+}
+
+.resumo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.resumoCard {
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-left: 3px solid var(--cor-laranja);
+  border-radius: var(--raio);
+  padding: 1rem 1.5rem;
+  flex: 1;
+  min-width: 160px;
+}
+
+.resumoLabel {
+  font-family: var(--fonte-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cor-texto-secundario);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.resumoValor {
+  font-family: var(--fonte-titulo);
+  font-size: 1.5rem;
+  color: var(--cor-laranja);
+}
