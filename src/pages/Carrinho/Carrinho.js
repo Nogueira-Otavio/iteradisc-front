@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
 import VendaService from "../../services/IteraDiscService/IteraDiscServiceVenda";
+import ItemVendaService from "../../services/IteraDiscService/IteraDiscServiceItemVenda";
 import AuthService from "../../services/IteraDiscService/IteraDiscServiceAuth";
 import styles from "./Carrinho.module.css";
 
@@ -57,20 +58,31 @@ function Carrinho() {
 
     try {
       const usuarioId = AuthService.obterUsuarioId();
-      const venda = {
-        usuarioId,
-        itensVenda: carrinho.map((i) => ({
-          produtoId: i.produtoId,
-          quantidade: i.quantidade,
-        })),
-      };
 
-      await VendaService.criarAsync(venda);
+      const itensIds = [];
+      for (const item of carrinho) {
+        const itemVendaId = await ItemVendaService.criarAsync(
+          item.produtoId,
+          item.quantidade
+        );
+        itensIds.push(itemVendaId);
+      }
+
+      await VendaService.criarAsync({
+        usuarioId: usuarioId,
+        itens: itensIds,
+      });
+
       localStorage.removeItem("carrinho");
       setCarrinho([]);
       setSucesso("Compra realizada com sucesso! Obrigado pelo seu pedido. 🎵");
     } catch (err) {
-      setErro("Erro ao finalizar compra. Tente novamente.");
+      const mensagem = err.response?.data;
+      setErro(
+        typeof mensagem === "string"
+          ? mensagem
+          : "Erro ao finalizar compra. Tente novamente."
+      );
     } finally {
       setCarregando(false);
     }
@@ -83,7 +95,10 @@ function Carrinho() {
       <div className={styles.cabecalho}>
         <span className="secao-label">Sua seleção</span>
         <h2>Carrinho de compras</h2>
-        <p>{carrinho.length} item{carrinho.length !== 1 ? "s" : ""} adicionado{carrinho.length !== 1 ? "s" : ""}</p>
+        <p>
+          {carrinho.length} item{carrinho.length !== 1 ? "s" : ""} adicionado
+          {carrinho.length !== 1 ? "s" : ""}
+        </p>
       </div>
 
       {sucesso && <div className="alerta-sucesso">{sucesso}</div>}
@@ -178,7 +193,8 @@ function Carrinho() {
                   {item.nome} x{item.quantidade}
                 </span>
                 <span>
-                  R$ {(item.preco * item.quantidade).toFixed(2).replace(".", ",")}
+                  R${" "}
+                  {(item.preco * item.quantidade).toFixed(2).replace(".", ",")}
                 </span>
               </div>
             ))}

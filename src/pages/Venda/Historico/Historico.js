@@ -58,7 +58,10 @@ function Historico() {
       <div className={styles.cabecalho}>
         <span className="secao-label">Histórico</span>
         <h2>Minhas compras</h2>
-        <p>{vendas.length} pedido{vendas.length !== 1 ? "s" : ""} realizado{vendas.length !== 1 ? "s" : ""}</p>
+        <p>
+          {vendas.length} pedido{vendas.length !== 1 ? "s" : ""} realizado
+          {vendas.length !== 1 ? "s" : ""}
+        </p>
       </div>
 
       <div className={styles.resumo}>
@@ -88,7 +91,6 @@ function Historico() {
       ) : (
         vendas.map((venda) => (
           <div key={venda.vendaId} className={styles.tabelaContainer}>
-            {/* Cabeçalho clicável da venda */}
             <div
               className={styles.vendaHeader}
               onClick={() => toggleVenda(venda.vendaId)}
@@ -99,14 +101,19 @@ function Historico() {
                   {formatarData(venda.dataVenda)}
                 </span>
                 <span className="badge-retro badge-cliente">
-                  {venda.itensVenda?.length || 0} item{(venda.itensVenda?.length || 0) !== 1 ? "s" : ""}
+                  {venda.itens?.length || 0} item
+                  {(venda.itens?.length || 0) !== 1 ? "s" : ""}
                 </span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                 <span className={styles.vendaTotal}>
                   R$ {venda.valorTotalVenda.toFixed(2).replace(".", ",")}
                 </span>
-                <span className={`${styles.vendaSetinha} ${abertas[venda.vendaId] ? styles.vendaSetinhaAberta : ""}`}>
+                <span
+                  className={`${styles.vendaSetinha} ${
+                    abertas[venda.vendaId] ? styles.vendaSetinhaAberta : ""
+                  }`}
+                >
                   ▼
                 </span>
               </div>
@@ -124,18 +131,40 @@ function Historico() {
                     </tr>
                   </thead>
                   <tbody>
-                    {venda.itensVenda?.map((item) => (
+                    {venda.itens?.map((item) => (
                       <tr key={item.itemVendaId}>
-                        <td className="texto-creme" style={{ fontFamily: "var(--fonte-titulo)" }}>
-                          {item.produto?.nome || item.nomeProduto || `Produto #${item.produtoId}`}
+                        <td
+                          className="texto-creme"
+                          style={{ fontFamily: "var(--fonte-titulo)" }}
+                        >
+                          {item.produto?.nome || `Produto #${item.produtoId}`}
                         </td>
-                        <td style={{ fontFamily: "var(--fonte-mono)", fontSize: "0.85rem" }}>
+                        <td
+                          style={{
+                            fontFamily: "var(--fonte-mono)",
+                            fontSize: "0.85rem",
+                          }}
+                        >
                           {item.quantidade}x
                         </td>
-                        <td style={{ fontFamily: "var(--fonte-mono)", color: "var(--cor-laranja)" }}>
-                          R$ {(item.valorItemVenda / item.quantidade).toFixed(2).replace(".", ",")}
+                        <td
+                          style={{
+                            fontFamily: "var(--fonte-mono)",
+                            color: "var(--cor-laranja)",
+                          }}
+                        >
+                          R${" "}
+                          {(item.valorItemVenda / item.quantidade)
+                            .toFixed(2)
+                            .replace(".", ",")}
                         </td>
-                        <td style={{ fontFamily: "var(--fonte-mono)", color: "var(--cor-laranja)", fontWeight: "700" }}>
+                        <td
+                          style={{
+                            fontFamily: "var(--fonte-mono)",
+                            color: "var(--cor-laranja)",
+                            fontWeight: "700",
+                          }}
+                        >
                           R$ {item.valorItemVenda.toFixed(2).replace(".", ",")}
                         </td>
                       </tr>

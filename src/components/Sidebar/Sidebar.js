@@ -25,16 +25,15 @@ function Sidebar() {
       </div>
 
       <nav className={styles.nav}>
-
         <span className={styles.secaoTitulo}>Loja</span>
         <SidebarItem to="/home" icone="🎵" label="Catálogo" />
         <SidebarItem to="/carrinho" icone="🛒" label="Carrinho" />
         <SidebarItem to="/historico" icone="📋" label="Minhas Compras" />
 
-        {/* Itens do Perfil */}
         <span className={styles.secaoTitulo}>Conta</span>
         <SidebarItem to="/perfil" icone="👤" label="Meu Perfil" />
         <SidebarItem to="/alterar-senha" icone="🔑" label="Alterar Senha" />
+        <SidebarItem to="/chatbot" icone="🤖" label="ChatBot" />
 
         {perfil === "Admin" && (
           <>

@@ -21,6 +21,7 @@ import ProdutosInativos from "./pages/Produto/ProdutosInativos/ProdutosInativos"
 import Usuarios from "./pages/Usuario/Usuarios/Usuarios";
 import UsuariosInativos from "./pages/Usuario/UsuariosInativos/UsuariosInativos";
 import AdminVendas from "./pages/Venda/Venda";
+import ChatBot from "./pages/ChatBot/ChatBot";
 
 import RotaProtegida from "./components/RotaProtegida/RotaProtegida";
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/alterar-senha" element={<AlterarSenha />} />
           <Route path="/carrinho" element={<Carrinho />} />
           <Route path="/historico" element={<Historico />} />
+          <Route path="/chatbot" element={<ChatBot />} />
         </Route>
 
         <Route element={<RotaProtegida apenasAdmin />}>

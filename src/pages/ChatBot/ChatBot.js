@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import GroqService from "../../services/IteraDiscService/IteraDiscServiceGroqService";
 import AuthService from "../../services/IteraDiscService/IteraDiscServiceAuth";
+import ReactMarkdown from "react-markdown";
 import styles from "./ChatBot.module.css";
 
 const SUGESTOES = [
@@ -118,7 +119,11 @@ function ChatBot() {
                         : ""
                     }`}
                   >
-                    {msg.texto}
+                    {msg.tipo === "bot" ? (
+                      <ReactMarkdown>{msg.texto}</ReactMarkdown>
+                    ) : (
+                      msg.texto
+                    )}
                   </div>
                 </div>
               ))}
