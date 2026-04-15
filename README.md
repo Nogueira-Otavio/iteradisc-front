@@ -174,8 +174,3 @@ chore: configuração e setup
 refactor: reorganização de código
 ```
 
----
-
-## 📄 Licença
-
-Projeto acadêmico desenvolvido para o Trabalho de Conclusão de Curso — UNIFENAS 2025.
