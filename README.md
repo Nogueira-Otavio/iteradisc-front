@@ -1,70 +1,181 @@
-# Getting Started with Create React App
+# 🎵 IteraDisc — Front-end
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Interface web da loja de discos de vinil **IteraDisc**, desenvolvida em React com tema retrô/vintage como Trabalho de Conclusão de Curso.
 
-## Available Scripts
+> Back-end disponível em: [IteraDisc API](https://github.com/seu-usuario/iteradisc-back)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Funcionalidades
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Área do Cliente
+- Cadastro com validação de e-mail duplicado
+- Login com redirecionamento automático por perfil
+- Catálogo de discos com carrinho persistente
+- Finalização de compra com atualização de estoque
+- Histórico de pedidos expansível por compra
+- Edição de perfil e troca de senha segura
+- ChatBot com IA generativa especializado em música
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Área Administrativa
+- CRUD completo de produtos com ativação/desativação
+- Gerenciamento de usuários com controle de perfis (Admin/Cliente)
+- Relatório de vendas com filtro por período
+- Cards de resumo: total de vendas, receita e ticket médio
+- Proteção de rotas por role — clientes não acessam área admin
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Tecnologias
 
-### `npm run build`
+| Tecnologia | Uso |
+|---|---|
+| React | Framework front-end |
+| React Router DOM | Roteamento e rotas protegidas |
+| Axios | Requisições HTTP com interceptor JWT |
+| Bootstrap / React Bootstrap | Componentes de UI base |
+| React Markdown | Renderização de respostas do ChatBot |
+| CSS Modules | Estilização isolada por componente |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📁 Estrutura do projeto
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+src/
+├── assets/               # Imagens e recursos estáticos
+├── components/
+│   ├── Layout/           # Container principal (Sidebar + Topbar)
+│   ├── RotaProtegida/    # Proteção de rotas por autenticação e role
+│   ├── Sidebar/          # Navegação lateral
+│   ├── SidebarItem/      # Item individual da sidebar
+│   └── Topbar/           # Barra superior com título e usuário
+├── pages/
+│   ├── Carrinho/         # Carrinho de compras e finalização
+│   ├── ChatBot/          # Assistente com IA
+│   ├── Home/             # Catálogo de discos (cliente)
+│   ├── Login/            # Tela de login
+│   ├── Produto/          # CRUD de produtos (admin)
+│   ├── Usuario/          # Perfil, senha e gerenciamento
+│   └── Venda/            # Histórico de compras e relatórios
+└── services/
+    └── IteraDiscService/ # Serviços de comunicação com a API
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🚀 Como executar
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Pré-requisitos
+- Node.js 18+
+- API do IteraDisc rodando localmente
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Instalação
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/iteradisc-front.git
+cd iteradisc-front
 
-## Learn More
+# Instale as dependências
+npm install
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Inicie o servidor de desenvolvimento
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+A aplicação estará disponível em `http://localhost:3000`.
 
-### Code Splitting
+### Configuração da API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Por padrão, o front conecta na API em `http://localhost:5279`. Para alterar, edite o arquivo `src/services/client.js`:
 
-### Analyzing the Bundle Size
+```js
+export const HTTPClient = axios.create({
+  baseURL: "http://localhost:SUA_PORTA",
+  ...
+});
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 🎨 Tema visual
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+O projeto utiliza um tema **retrô/vintage** inspirado em lojas de discos dos anos 70/80:
 
-### Advanced Configuration
+| Variável | Cor | Uso |
+|---|---|---|
+| `--fundo` | `#0F1923` | Fundo principal |
+| `--laranja` | `#C8873A` | Cor de destaque |
+| `--creme` | `#F0E6D3` | Texto principal |
+| `--fonte-titulo` | Playfair Display | Títulos e headings |
+| `--fonte-mono` | Space Mono | Labels e navegação |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## 🔐 Autenticação
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+O sistema usa **JWT Bearer Token** com dois perfis:
 
-### `npm run build` fails to minify
+- **Admin** → acesso a produtos, usuários, vendas e todas as rotas
+- **Cliente** → acesso ao catálogo, carrinho, histórico e perfil
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+O token é armazenado no `localStorage` e enviado automaticamente em todas as requisições via interceptor do Axios. Ao expirar (401), o usuário é redirecionado para o login.
+
+---
+
+## 🤖 ChatBot com IA
+
+O ChatBot utiliza a **Groq API** com o modelo `groq/compound`, integrado ao back-end C#. O assistente é especializado em:
+
+- Recomendações de discos e artistas
+- Dicas de conservação de vinil
+- Informações sobre equipamentos de áudio
+- História da música e estilos musicais
+
+Perguntas fora desses temas são recusadas educadamente pelo assistente.
+
+---
+
+## 📦 Dependências principais
+
+```json
+"dependencies": {
+  "axios": "^1.x",
+  "bootstrap": "^5.x",
+  "react": "^18.x",
+  "react-bootstrap": "^2.x",
+  "react-markdown": "^9.x",
+  "react-router-dom": "^6.x"
+}
+```
+
+---
+
+## 🗂️ Versionamento
+
+O projeto usa **Git Flow simplificado** com branches por funcionalidade:
+
+```
+main                        ← código estável
+└── feature/autenticacao    ← login, cadastro, rotas protegidas
+└── feature/catalogo        ← listagem e carrinho
+└── feature/admin           ← área administrativa
+└── feature/ajustes-finais  ← correções e polimentos
+```
+
+### Padrão de commits
+
+```
+feat: nova funcionalidade
+fix: correção de bug
+style: mudança visual/CSS
+chore: configuração e setup
+refactor: reorganização de código
+```
+
+---
+
+## 📄 Licença
+
+Projeto acadêmico desenvolvido para o Trabalho de Conclusão de Curso — UNIFENAS 2025.
