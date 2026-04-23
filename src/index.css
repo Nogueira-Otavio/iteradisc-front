@@ -382,3 +382,16 @@ a:hover {
 .mt-2 { margin-top: 1rem; }
 .mb-1 { margin-bottom: 0.5rem; }
 .mb-2 { margin-bottom: 1rem; }
+
+/* ===========================
+   CAMPO SENHA COM OLHINHO
+=========================== */
+.campo-senha {
+  position: relative;
+  width: 100%;
+}
+
+.campo-senha .input-retro {
+  width: 100%;
+  padding-right: 2.8rem;
+}

@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import UsuarioService from "../../../services/IteraDiscService/IteraDiscServiceUsuario";
+import OlhoIcon from "../../../components/OlhoIcon/OlhoIcon";
 import styles from "./NovoUsuario.module.css";
 
 function NovoUsuario() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    nome: "",
-    email: "",
-    senha: "",
-    confirmarSenha: "",
-  });
+  const [form, setForm] = useState({ nome: "", email: "", senha: "", confirmarSenha: "" });
+  const [verSenha, setVerSenha] = useState(false);
+  const [verConfirmar, setVerConfirmar] = useState(false);
   const [erro, setErro] = useState("");
   const [sucesso, setSucesso] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -28,14 +26,12 @@ function NovoUsuario() {
       setErro("As senhas não coincidem.");
       return;
     }
-
     if (form.senha.length < 6) {
       setErro("A senha deve ter pelo menos 6 caracteres.");
       return;
     }
 
     setCarregando(true);
-
     try {
       await UsuarioService.criarAsync({
         nome: form.nome,
@@ -43,14 +39,10 @@ function NovoUsuario() {
         senha: form.senha,
         perfil: "Cliente",
       });
-
       setSucesso("Conta criada com sucesso! Redirecionando...");
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      const mensagem =
-        err.response?.data ||
-        err.response?.data?.message ||
-        "Erro ao criar conta. Tente novamente.";
+      const mensagem = err.response?.data;
       setErro(typeof mensagem === "string" ? mensagem : "Erro ao criar conta.");
     } finally {
       setCarregando(false);
@@ -67,7 +59,6 @@ function NovoUsuario() {
             className={styles.logo}
           />
         </div>
-
         <span className="secao-label">Nova conta</span>
         <h2 className={styles.titulo}>Criar cadastro</h2>
         <hr className="divisor-retro" />
@@ -101,28 +92,34 @@ function NovoUsuario() {
 
           <div className="form-grupo">
             <label className="label-retro">Senha</label>
-            <input
-              className="input-retro"
-              type="password"
-              name="senha"
-              placeholder="Mínimo 6 caracteres"
-              value={form.senha}
-              onChange={handleChange}
-              required
-            />
+            <div className="campo-senha">
+              <input
+                className="input-retro"
+                type={verSenha ? "text" : "password"}
+                name="senha"
+                placeholder="Mínimo 6 caracteres"
+                value={form.senha}
+                onChange={handleChange}
+                required
+              />
+              <OlhoIcon visivel={verSenha} onClick={() => setVerSenha(!verSenha)} />
+            </div>
           </div>
 
           <div className="form-grupo">
             <label className="label-retro">Confirmar senha</label>
-            <input
-              className="input-retro"
-              type="password"
-              name="confirmarSenha"
-              placeholder="Repita a senha"
-              value={form.confirmarSenha}
-              onChange={handleChange}
-              required
-            />
+            <div className="campo-senha">
+              <input
+                className="input-retro"
+                type={verConfirmar ? "text" : "password"}
+                name="confirmarSenha"
+                placeholder="Repita a senha"
+                value={form.confirmarSenha}
+                onChange={handleChange}
+                required
+              />
+              <OlhoIcon visivel={verConfirmar} onClick={() => setVerConfirmar(!verConfirmar)} />
+            </div>
           </div>
 
           {erro && <div className="alerta-erro">{erro}</div>}
@@ -133,16 +130,13 @@ function NovoUsuario() {
               type="submit"
               className="btn-retro btn-retro-primario w-100"
               disabled={carregando}
-              style={{ justifyContent: "center" }}
             >
               {carregando ? "Criando conta..." : "Criar conta"}
             </button>
-
             <button
               type="button"
               className="btn-retro btn-retro-secundario w-100"
               onClick={() => navigate("/login")}
-              style={{ justifyContent: "center" }}
             >
               Voltar ao login
             </button>

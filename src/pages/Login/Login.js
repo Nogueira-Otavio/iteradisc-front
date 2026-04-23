@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AuthService from "../../services/IteraDiscService/IteraDiscServiceAuth";
+import OlhoIcon from "../../components/OlhoIcon/OlhoIcon";
 import styles from "./Login.module.css";
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [verSenha, setVerSenha] = useState(false);
   const [erro, setErro] = useState("");
   const [carregando, setCarregando] = useState(false);
 
@@ -14,17 +16,12 @@ function Login() {
     e.preventDefault();
     setErro("");
     setCarregando(true);
-
     try {
       const dados = await AuthService.loginAsync(email, senha);
       AuthService.salvarSessao(dados);
-
-      if (dados.perfil === "Admin") {
-        navigate("/produtos");
-      } else {
-        navigate("/home");
-      }
-    } catch (err) {
+      if (dados.perfil === "Admin") navigate("/produtos");
+      else navigate("/home");
+    } catch {
       setErro("E-mail ou senha inválidos.");
     } finally {
       setCarregando(false);
@@ -57,7 +54,6 @@ function Login() {
               className={styles.logo}
             />
           </div>
-
           <span className="secao-label">Acesso à plataforma</span>
           <h2 className={styles.titulo}>Entrar na conta</h2>
           <hr className="divisor-retro" />
@@ -77,14 +73,17 @@ function Login() {
 
             <div className="form-grupo">
               <label className="label-retro">Senha</label>
-              <input
-                className="input-retro"
-                type="password"
-                placeholder="••••••••"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                required
-              />
+              <div className="campo-senha">
+                <input
+                  className="input-retro"
+                  type={verSenha ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  required
+                />
+                <OlhoIcon visivel={verSenha} onClick={() => setVerSenha(!verSenha)} />
+              </div>
             </div>
 
             {erro && <div className="alerta-erro">{erro}</div>}
@@ -93,15 +92,13 @@ function Login() {
               type="submit"
               className="btn-retro btn-retro-primario w-100"
               disabled={carregando}
-              style={{ justifyContent: "center", marginTop: "0.5rem" }}
             >
               {carregando ? "Entrando..." : "Entrar"}
             </button>
           </form>
 
           <p className={styles.cadastroTexto}>
-            Não tem conta?{" "}
-            <Link to="/cadastro">Cadastre-se</Link>
+            Não tem conta? <Link to="/cadastro">Cadastre-se</Link>
           </p>
         </div>
       </div>
