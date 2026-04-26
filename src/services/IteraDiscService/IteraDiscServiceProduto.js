@@ -30,6 +30,13 @@ const ProdutoService = {
     const response = await HTTPClient.put(`/Produto/Restaurar/${produtoId}`);
     return response.data;
   },
+
+  async estoqueBaixoAsync(limite = 5) {
+    const response = await HTTPClient.get(
+      `/Produto/EstoqueBaixo?limite=${limite}`,
+    );
+    return response.data;
+  },
 };
 
 export default ProdutoService;

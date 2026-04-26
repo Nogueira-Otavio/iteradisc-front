@@ -81,3 +81,56 @@
   color: var(--cor-texto-secundario);
   font-style: italic;
 }
+
+.alertaEstoque {
+  background-color: rgba(192, 57, 43, 0.08);
+  border: 1px solid rgba(192, 57, 43, 0.3);
+  border-left: 3px solid var(--cor-erro);
+  border-radius: var(--raio);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.alertaTitulo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--fonte-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cor-erro);
+  margin-bottom: 0.75rem;
+}
+
+.alertaIcone {
+  font-size: 1rem;
+}
+
+.alertaItens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.alertaItem {
+  background-color: rgba(192, 57, 43, 0.1);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  border-radius: var(--raio);
+  padding: 0.3rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alertaNome {
+  font-family: var(--fonte-titulo);
+  font-size: 0.9rem;
+  color: var(--cor-creme);
+}
+
+.alertaQtd {
+  font-family: var(--fonte-mono);
+  font-size: 0.7rem;
+  color: var(--cor-erro);
+}

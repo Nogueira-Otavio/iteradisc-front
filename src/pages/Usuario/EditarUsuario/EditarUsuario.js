@@ -6,24 +6,29 @@ import styles from "./EditarUsuario.module.css";
 
 function EditarUsuario() {
   const [form, setForm] = useState({ nome: "", email: "" });
+  const [totalGasto, setTotalGasto] = useState(null);
   const [erro, setErro] = useState("");
   const [sucesso, setSucesso] = useState("");
   const [carregando, setCarregando] = useState(false);
   const [carregandoDados, setCarregandoDados] = useState(true);
 
   useEffect(() => {
-    async function carregarUsuario() {
+    async function carregarDados() {
       try {
         const id = AuthService.obterUsuarioId();
-        const dados = await UsuarioService.obterAsync(id);
+        const [dados, total] = await Promise.all([
+          UsuarioService.obterAsync(id),
+          UsuarioService.totalGastoAsync(id),
+        ]);
         setForm({ nome: dados.nome, email: dados.email });
+        setTotalGasto(total);
       } catch (err) {
         setErro("Erro ao carregar dados do perfil.");
       } finally {
         setCarregandoDados(false);
       }
     }
-    carregarUsuario();
+    carregarDados();
   }, []);
 
   function handleChange(e) {
@@ -74,6 +79,18 @@ function EditarUsuario() {
           <h2>Meu perfil</h2>
           <p>Atualize suas informações pessoais</p>
         </div>
+
+        {totalGasto !== null && (
+          <div className={styles.statCard}>
+            <div className={styles.statInfo}>
+              <span className={styles.statLabel}>Total investido em discos</span>
+              <span className={styles.statValor}>
+                R$ {Number(totalGasto).toFixed(2).replace(".", ",")}
+              </span>
+            </div>
+            <div className={styles.statIcone}>🎵</div>
+          </div>
+        )}
 
         <div className={styles.card}>
           <form onSubmit={handleSalvar}>

@@ -7,6 +7,7 @@ import styles from "./Produto.module.css";
 function Produto() {
   const navigate = useNavigate();
   const [produtos, setProdutos] = useState([]);
+  const [estoqueBaixo, setEstoqueBaixo] = useState([]);
   const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
@@ -15,8 +16,12 @@ function Produto() {
 
   async function carregarProdutos() {
     try {
-      const dados = await ProdutoService.listarAsync(true);
-      setProdutos(dados);
+      const [ativos, baixo] = await Promise.all([
+        ProdutoService.listarAsync(true),
+        ProdutoService.estoqueBaixoAsync(5),
+      ]);
+      setProdutos(ativos);
+      setEstoqueBaixo(baixo);
     } catch (err) {
       console.error("Erro ao carregar produtos:", err);
     } finally {
@@ -29,7 +34,7 @@ function Produto() {
     try {
       await ProdutoService.deletarAsync(id);
       await carregarProdutos();
-    } catch (err) {
+    } catch {
       alert("Erro ao desativar produto.");
     }
   }
@@ -42,7 +47,6 @@ function Produto() {
           <h2>Produtos ativos</h2>
           <p>{produtos.length} produto{produtos.length !== 1 ? "s" : ""} cadastrado{produtos.length !== 1 ? "s" : ""}</p>
         </div>
-
         <div className={styles.cabecalhoAcoes}>
           <button
             className="btn-retro btn-retro-secundario"
@@ -58,6 +62,23 @@ function Produto() {
           </button>
         </div>
       </div>
+
+      {estoqueBaixo.length > 0 && (
+        <div className={styles.alertaEstoque}>
+          <div className={styles.alertaTitulo}>
+            <span className={styles.alertaIcone}>⚠️</span>
+            <span>{estoqueBaixo.length} produto{estoqueBaixo.length !== 1 ? "s" : ""} com estoque baixo</span>
+          </div>
+          <div className={styles.alertaItens}>
+            {estoqueBaixo.map((p) => (
+              <div key={p.produtoId} className={styles.alertaItem}>
+                <span className={styles.alertaNome}>{p.nome}</span>
+                <span className={styles.alertaQtd}>{p.emEstoque} un.</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className={styles.tabelaContainer}>
         {carregando ? (
@@ -103,14 +124,12 @@ function Produto() {
                       <button
                         className={styles.btnIcone}
                         onClick={() => navigate(`/produtos/editar/${p.produtoId}`)}
-                        title="Editar"
                       >
                         ✏️ Editar
                       </button>
                       <button
                         className={`${styles.btnIcone} ${styles.btnIconePerigo}`}
                         onClick={() => handleDeletar(p.produtoId, p.nome)}
-                        title="Desativar"
                       >
                         🗑 Desativar
                       </button>

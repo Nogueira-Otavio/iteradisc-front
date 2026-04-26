@@ -5,22 +5,21 @@ import styles from "./Venda.module.css";
 
 function Venda() {
   const [vendas, setVendas] = useState([]);
-  const [vendasFiltradas, setVendasFiltradas] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [dataInicio, setDataInicio] = useState("");
   const [dataFim, setDataFim] = useState("");
-  const [buscaCliente, setBuscaCliente] = useState("");
-  const [abertas, setAbertas] = useState({});
+  const [usandoRelatorio, setUsandoRelatorio] = useState(false);
 
   useEffect(() => {
     carregarVendas();
   }, []);
 
   async function carregarVendas() {
+    setCarregando(true);
     try {
       const dados = await VendaService.listarAsync();
       setVendas(dados);
-      setVendasFiltradas(dados);
+      setUsandoRelatorio(false);
     } catch (err) {
       console.error("Erro ao carregar vendas:", err);
     } finally {
@@ -28,43 +27,32 @@ function Venda() {
     }
   }
 
-  function handleFiltrar() {
-    let filtradas = [...vendas];
-
-    if (buscaCliente.trim()) {
-      filtradas = filtradas.filter((v) =>
-        (v.nomeCliente || "").toLowerCase().includes(buscaCliente.toLowerCase())
-      );
+  async function handleFiltrar() {
+    if (!dataInicio || !dataFim) {
+      alert("Preencha as duas datas para filtrar.");
+      return;
     }
-
-    if (dataInicio) {
-      filtradas = filtradas.filter(
-        (v) => new Date(v.dataVenda) >= new Date(dataInicio)
-      );
+    setCarregando(true);
+    try {
+      const dados = await VendaService.relatorioAsync(dataInicio, dataFim);
+      setVendas(dados);
+      setUsandoRelatorio(true);
+    } catch (err) {
+      console.error("Erro ao buscar relatório:", err);
+    } finally {
+      setCarregando(false);
     }
-
-    if (dataFim) {
-      filtradas = filtradas.filter(
-        (v) => new Date(v.dataVenda) <= new Date(dataFim + "T23:59:59")
-      );
-    }
-
-    setVendasFiltradas(filtradas);
   }
 
-  function handleLimpar() {
-    setBuscaCliente("");
+  async function handleLimpar() {
     setDataInicio("");
     setDataFim("");
-    setVendasFiltradas(vendas);
-  }
-
-  function toggleVenda(vendaId) {
-    setAbertas((prev) => ({ ...prev, [vendaId]: !prev[vendaId] }));
+    await carregarVendas();
   }
 
   function formatarData(dataString) {
-    return new Date(dataString).toLocaleDateString("pt-BR", {
+    const data = new Date(dataString);
+    return data.toLocaleDateString("pt-BR", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -73,29 +61,29 @@ function Venda() {
     });
   }
 
-  const totalGeral = vendasFiltradas.reduce(
-    (acc, v) => acc + v.valorTotalVenda, 0
-  );
+  const totalGeral = vendas.reduce((acc, v) => acc + (v.valorTotalVenda || 0), 0);
 
   return (
     <Layout titulo="Vendas">
       <div className={styles.cabecalho}>
         <div className={styles.cabecalhoTitulo}>
-          <span className="secao-label">Relatório</span>
+          <span className="secao-label">
+            {usandoRelatorio ? "Stored Procedure · sp_RelatorioVendasPorPeriodo" : "Relatório"}
+          </span>
           <h2>Histórico de vendas</h2>
           <p>
-            {vendasFiltradas.length} venda
-            {vendasFiltradas.length !== 1 ? "s" : ""} encontrada
-            {vendasFiltradas.length !== 1 ? "s" : ""}
+            {vendas.length} venda{vendas.length !== 1 ? "s" : ""} encontrada{vendas.length !== 1 ? "s" : ""}
+            {usandoRelatorio && (
+              <span className={styles.badgeDapper}>via Dapper</span>
+            )}
           </p>
         </div>
       </div>
 
-      {/* Cards de resumo */}
       <div className={styles.resumo}>
         <div className={styles.resumoCard}>
           <span className={styles.resumoLabel}>Total de vendas</span>
-          <span className={styles.resumoValor}>{vendasFiltradas.length}</span>
+          <span className={styles.resumoValor}>{vendas.length}</span>
         </div>
         <div className={styles.resumoCard}>
           <span className={styles.resumoLabel}>Receita total</span>
@@ -106,27 +94,14 @@ function Venda() {
         <div className={styles.resumoCard}>
           <span className={styles.resumoLabel}>Ticket médio</span>
           <span className={styles.resumoValor}>
-            R${" "}
-            {vendasFiltradas.length > 0
-              ? (totalGeral / vendasFiltradas.length).toFixed(2).replace(".", ",")
+            R$ {vendas.length > 0
+              ? (totalGeral / vendas.length).toFixed(2).replace(".", ",")
               : "0,00"}
           </span>
         </div>
       </div>
 
-      {/* Filtros */}
       <div className={styles.filtros}>
-        <div className={styles.filtroGrupo}>
-          <label className="label-retro">Cliente</label>
-          <input
-            className="input-retro"
-            type="text"
-            placeholder="Buscar por nome..."
-            value={buscaCliente}
-            onChange={(e) => setBuscaCliente(e.target.value)}
-            style={{ width: "180px" }}
-          />
-        </div>
         <div className={styles.filtroGrupo}>
           <label className="label-retro">Data início</label>
           <input
@@ -134,7 +109,7 @@ function Venda() {
             type="date"
             value={dataInicio}
             onChange={(e) => setDataInicio(e.target.value)}
-            style={{ width: "160px" }}
+            style={{ width: "180px" }}
           />
         </div>
         <div className={styles.filtroGrupo}>
@@ -144,101 +119,66 @@ function Venda() {
             type="date"
             value={dataFim}
             onChange={(e) => setDataFim(e.target.value)}
-            style={{ width: "160px" }}
+            style={{ width: "180px" }}
           />
         </div>
-        <div style={{ display: "flex", gap: "0.5rem", alignSelf: "flex-end" }}>
-          <button className="btn-retro btn-retro-primario" onClick={handleFiltrar}>
-            Filtrar
-          </button>
-          <button className="btn-retro btn-retro-secundario" onClick={handleLimpar}>
-            Limpar
-          </button>
-        </div>
+        <button className="btn-retro btn-retro-primario" onClick={handleFiltrar}>
+          Filtrar
+        </button>
+        <button className="btn-retro btn-retro-secundario" onClick={handleLimpar}>
+          Limpar
+        </button>
       </div>
 
-      {/* Vendas expansíveis */}
-      {carregando ? (
-        <div className="centralizador">
-          <div className="spinner-retro" />
-        </div>
-      ) : vendasFiltradas.length === 0 ? (
-        <p className={styles.vazio}>Nenhuma venda encontrada.</p>
-      ) : (
-        vendasFiltradas.map((v) => (
-          <div key={v.vendaId} className={styles.tabelaContainer}>
-            <div
-              className={styles.vendaHeader}
-              onClick={() => toggleVenda(v.vendaId)}
-            >
-              <div className={styles.vendaHeaderInfo}>
-                <span className={styles.vendaId}>#{v.vendaId}</span>
-                <span className={styles.vendaCliente}>
-                  {v.nomeCliente || "—"}
-                </span>
-                <span className={styles.vendaData}>
-                  {formatarData(v.dataVenda)}
-                </span>
-                <span className="badge-retro badge-admin">
-                  {v.itens?.length || 0} item
-                  {(v.itens?.length || 0) !== 1 ? "s" : ""}
-                </span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <span className={styles.vendaTotal}>
-                  R$ {v.valorTotalVenda.toFixed(2).replace(".", ",")}
-                </span>
-                <span
-                  className={`${styles.vendaSetinha} ${
-                    abertas[v.vendaId] ? styles.vendaSetinhaAberta : ""
-                  }`}
-                >
-                  ▼
-                </span>
-              </div>
-            </div>
-
-            {abertas[v.vendaId] && (
-              <div className={styles.itensContainer}>
-                {v.itens && v.itens.length > 0 ? (
-                  <table className="tabela-retro">
-                    <thead>
-                      <tr>
-                        <th>Produto</th>
-                        <th>Quantidade</th>
-                        <th>Valor unit.</th>
-                        <th>Subtotal</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {v.itens.map((item) => (
-                        <tr key={item.itemVendaId}>
-                          <td className="texto-creme" style={{ fontFamily: "var(--fonte-titulo)" }}>
-                            {item.produto?.nome || `Produto #${item.produtoId}`}
-                          </td>
-                          <td style={{ fontFamily: "var(--fonte-mono)", fontSize: "0.85rem" }}>
-                            {item.quantidade}x
-                          </td>
-                          <td style={{ fontFamily: "var(--fonte-mono)", color: "var(--cor-laranja)" }}>
-                            R$ {(item.valorItemVenda / item.quantidade).toFixed(2).replace(".", ",")}
-                          </td>
-                          <td style={{ fontFamily: "var(--fonte-mono)", color: "var(--cor-laranja)", fontWeight: "700" }}>
-                            R$ {item.valorItemVenda.toFixed(2).replace(".", ",")}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <p style={{ color: "var(--cor-texto-secundario)", fontStyle: "italic" }}>
-                    Nenhum item registrado.
-                  </p>
-                )}
-              </div>
-            )}
+      <div className={styles.tabelaContainer}>
+        {carregando ? (
+          <div className="centralizador">
+            <div className="spinner-retro" />
           </div>
-        ))
-      )}
+        ) : vendas.length === 0 ? (
+          <p className={styles.vazio}>Nenhuma venda encontrada.</p>
+        ) : (
+          <table className="tabela-retro">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Data</th>
+                <th>Itens</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vendas.map((v) => (
+                <tr key={v.vendaId}>
+                  <td className="texto-secundario" style={{ fontFamily: "var(--fonte-mono)", fontSize: "0.8rem" }}>
+                    #{v.vendaId}
+                  </td>
+                  <td className="texto-creme" style={{ fontFamily: "var(--fonte-titulo)" }}>
+                    {v.nomeCliente || v.usuario?.nome || "—"}
+                  </td>
+                  <td>
+                    <span className={styles.data}>{formatarData(v.dataVenda)}</span>
+                  </td>
+                  <td>
+                    <span className={styles.itens}>
+                      {usandoRelatorio
+                        ? `${v.totalItens} item${v.totalItens !== 1 ? "s" : ""}`
+                        : `${v.itens?.length || 0} item${(v.itens?.length || 0) !== 1 ? "s" : ""}`
+                      }
+                    </span>
+                  </td>
+                  <td>
+                    <span className={styles.total}>
+                      R$ {v.valorTotalVenda.toFixed(2).replace(".", ",")}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </Layout>
   );
 }

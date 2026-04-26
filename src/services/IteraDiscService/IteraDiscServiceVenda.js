@@ -17,7 +17,21 @@ const VendaService = {
   },
 
   async historicoClienteAsync(usuarioId) {
-    const response = await HTTPClient.get(`/Venda/HistoricoCliente?usuarioId=${usuarioId}`);
+    const response = await HTTPClient.get(
+      `/Venda/HistoricoCliente?usuarioId=${usuarioId}`,
+    );
+    return response.data;
+  },
+
+  async relatorioAsync(dataInicio, dataFim) {
+    const response = await HTTPClient.get(
+      `/Venda/Relatorio?dataInicio=${dataInicio}&dataFim=${dataFim}`,
+    );
+    return response.data;
+  },
+
+  async historicoCompletoAsync() {
+    const response = await HTTPClient.get("/Venda/HistoricoCompleto");
     return response.data;
   },
 };

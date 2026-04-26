@@ -18,6 +18,45 @@
   font-style: italic;
 }
 
+.statCard {
+  background-color: var(--cor-fundo-card);
+  border: 1px solid var(--cor-borda);
+  border-left: 3px solid var(--cor-laranja);
+  border-radius: var(--raio);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--sombra-laranja);
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.statLabel {
+  font-family: var(--fonte-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cor-texto-secundario);
+}
+
+.statValor {
+  font-family: var(--fonte-titulo);
+  font-size: 2rem;
+  color: var(--cor-laranja);
+  line-height: 1;
+}
+
+.statIcone {
+  font-size: 2rem;
+  opacity: 0.4;
+}
+
 .card {
   background-color: var(--cor-fundo-card);
   border: 1px solid var(--cor-borda);
