@@ -34,11 +34,14 @@ function Venda() {
     }
     setCarregando(true);
     try {
-      const dados = await VendaService.relatorioAsync(dataInicio, dataFim);
+      const inicio = `${dataInicio}T00:00:00`;
+      const fim = `${dataFim}T23:59:59`;
+      const dados = await VendaService.relatorioAsync(inicio, fim);
       setVendas(dados);
       setUsandoRelatorio(true);
     } catch (err) {
-      console.error("Erro ao buscar relatório:", err);
+      console.error("Erro no relatório:", err.response?.data || err.message);
+      alert("Erro ao filtrar: " + (err.response?.data || err.message));
     } finally {
       setCarregando(false);
     }
@@ -61,18 +64,20 @@ function Venda() {
     });
   }
 
-  const totalGeral = vendas.reduce((acc, v) => acc + (v.valorTotalVenda || 0), 0);
+  const totalGeral = vendas.reduce(
+    (acc, v) => acc + (v.valorTotalVenda || 0),
+    0
+  );
 
   return (
     <Layout titulo="Vendas">
       <div className={styles.cabecalho}>
         <div className={styles.cabecalhoTitulo}>
-          <span className="secao-label">
-            {usandoRelatorio ? "Stored Procedure · sp_RelatorioVendasPorPeriodo" : "Relatório"}
-          </span>
+          <span className="secao-label">Relatório</span>
           <h2>Histórico de vendas</h2>
           <p>
-            {vendas.length} venda{vendas.length !== 1 ? "s" : ""} encontrada{vendas.length !== 1 ? "s" : ""}
+            {vendas.length} venda{vendas.length !== 1 ? "s" : ""} encontrada
+            {vendas.length !== 1 ? "s" : ""}
             {usandoRelatorio && (
               <span className={styles.badgeDapper}>via Dapper</span>
             )}
@@ -94,7 +99,8 @@ function Venda() {
         <div className={styles.resumoCard}>
           <span className={styles.resumoLabel}>Ticket médio</span>
           <span className={styles.resumoValor}>
-            R$ {vendas.length > 0
+            R${" "}
+            {vendas.length > 0
               ? (totalGeral / vendas.length).toFixed(2).replace(".", ",")
               : "0,00"}
           </span>
@@ -122,10 +128,16 @@ function Venda() {
             style={{ width: "180px" }}
           />
         </div>
-        <button className="btn-retro btn-retro-primario" onClick={handleFiltrar}>
+        <button
+          className="btn-retro btn-retro-primario"
+          onClick={handleFiltrar}
+        >
           Filtrar
         </button>
-        <button className="btn-retro btn-retro-secundario" onClick={handleLimpar}>
+        <button
+          className="btn-retro btn-retro-secundario"
+          onClick={handleLimpar}
+        >
           Limpar
         </button>
       </div>
@@ -151,21 +163,28 @@ function Venda() {
             <tbody>
               {vendas.map((v) => (
                 <tr key={v.vendaId}>
-                  <td className="texto-secundario" style={{ fontFamily: "var(--fonte-mono)", fontSize: "0.8rem" }}>
+                  <td
+                    className="texto-secundario"
+                    style={{ fontFamily: "var(--fonte-mono)", fontSize: "0.8rem" }}
+                  >
                     #{v.vendaId}
                   </td>
-                  <td className="texto-creme" style={{ fontFamily: "var(--fonte-titulo)" }}>
+                  <td
+                    className="texto-creme"
+                    style={{ fontFamily: "var(--fonte-titulo)" }}
+                  >
                     {v.nomeCliente || v.usuario?.nome || "—"}
                   </td>
                   <td>
-                    <span className={styles.data}>{formatarData(v.dataVenda)}</span>
+                    <span className={styles.data}>
+                      {formatarData(v.dataVenda)}
+                    </span>
                   </td>
                   <td>
                     <span className={styles.itens}>
                       {usandoRelatorio
                         ? `${v.totalItens} item${v.totalItens !== 1 ? "s" : ""}`
-                        : `${v.itens?.length || 0} item${(v.itens?.length || 0) !== 1 ? "s" : ""}`
-                      }
+                        : `${v.itens?.length || 0} item${(v.itens?.length || 0) !== 1 ? "s" : ""}`}
                     </span>
                   </td>
                   <td>

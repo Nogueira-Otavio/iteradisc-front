@@ -4,6 +4,7 @@ import GroqService from "../../services/IteraDiscService/IteraDiscServiceGroqSer
 import AuthService from "../../services/IteraDiscService/IteraDiscServiceAuth";
 import ReactMarkdown from "react-markdown";
 import styles from "./ChatBot.module.css";
+import remarkGfm from "remark-gfm";
 
 const SUGESTOES = [
   "Me recomende um disco de jazz",
@@ -31,24 +32,26 @@ function ChatBot() {
     if (!mensagem || carregando) return;
 
     setInput("");
-    setMensagens((prev) => [
-      ...prev,
-      { tipo: "usuario", texto: mensagem },
-    ]);
+    setMensagens((prev) => [...prev, { tipo: "usuario", texto: mensagem }]);
     setCarregando(true);
 
     try {
       const resposta = await GroqService.enviarMensagemAsync(mensagem);
-      setMensagens((prev) => [
-        ...prev,
-        { tipo: "bot", texto: resposta },
-      ]);
+      console.log("Tipo:", typeof resposta);
+      console.log("Valor:", resposta);
+      const textoResposta =
+        typeof resposta === "string"
+          ? resposta
+          : resposta?.message || resposta?.resposta || JSON.stringify(resposta);
+
+      setMensagens((prev) => [...prev, { tipo: "bot", texto: textoResposta }]);
     } catch (err) {
       setMensagens((prev) => [
         ...prev,
         {
           tipo: "bot",
-          texto: "Desculpe, tive um problema para responder. Tente novamente.",
+          texto:
+            "Estou com dificuldades técnicas no momento. Tente novamente em instantes! 🎵",
         },
       ]);
     } finally {
@@ -77,8 +80,10 @@ function ChatBot() {
             <div className={styles.mensagemVazia}>
               <span className={styles.mensagemVaziaIcone}>🎵</span>
               <p className={styles.mensagemVaziaTexto}>
-                Olá, {nome}! Sou o assistente virtual da IteraDisc.<br />
-                Posso te ajudar com recomendações, dúvidas sobre discos e muito mais.
+                Olá, {nome}! Sou o assistente virtual da IteraDisc.
+                <br />
+                Posso te ajudar com recomendações, dúvidas sobre discos e muito
+                mais.
               </p>
               <div className={styles.sugestoes}>
                 {SUGESTOES.map((s) => (
@@ -113,10 +118,8 @@ function ChatBot() {
                     {msg.tipo === "usuario" ? iniciais : "🎵"}
                   </div>
                   <div
-                    className={`${styles.textoBolha} ${
-                      msg.tipo === "usuario"
-                        ? styles.textoBolhaUsuario
-                        : ""
+                    className={`${styles.textoBolha} textoBolha ${
+                      msg.tipo === "usuario" ? styles.textoBolhaUsuario : ""
                     }`}
                   >
                     {msg.tipo === "bot" ? (

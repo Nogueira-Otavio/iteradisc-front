@@ -13,23 +13,26 @@ function EditarUsuario() {
   const [carregandoDados, setCarregandoDados] = useState(true);
 
   useEffect(() => {
-    async function carregarDados() {
+  async function carregarDados() {
+    try {
+      const id = AuthService.obterUsuarioId();
+      const dados = await UsuarioService.obterAsync(id);
+      setForm({ nome: dados.nome, email: dados.email });
+
       try {
-        const id = AuthService.obterUsuarioId();
-        const [dados, total] = await Promise.all([
-          UsuarioService.obterAsync(id),
-          UsuarioService.totalGastoAsync(id),
-        ]);
-        setForm({ nome: dados.nome, email: dados.email });
+        const total = await UsuarioService.totalGastoAsync(id);
         setTotalGasto(total);
-      } catch (err) {
-        setErro("Erro ao carregar dados do perfil.");
-      } finally {
-        setCarregandoDados(false);
+      } catch {
+        setTotalGasto(0);
       }
+    } catch (err) {
+      setErro("Erro ao carregar dados do perfil.");
+    } finally {
+      setCarregandoDados(false);
     }
-    carregarDados();
-  }, []);
+  }
+  carregarDados();
+}, []);
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });

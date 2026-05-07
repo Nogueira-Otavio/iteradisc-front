@@ -395,3 +395,84 @@ a:hover {
   width: 100%;
   padding-right: 2.8rem;
 }
+
+/* ===========================
+   MARKDOWN DO CHATBOT
+=========================== */
+.textoBolha h1,
+.textoBolha h2,
+.textoBolha h3 {
+  font-family: var(--fonte-titulo);
+  color: var(--cor-creme);
+  margin: 0.75rem 0 0.4rem;
+  font-size: 1rem;
+}
+
+.textoBolha p {
+  color: var(--cor-creme-suave);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.textoBolha ul,
+.textoBolha ol {
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--cor-creme-suave);
+}
+
+.textoBolha li {
+  margin-bottom: 0.25rem;
+}
+
+.textoBolha strong {
+  color: var(--cor-laranja);
+  font-weight: 600;
+}
+
+.textoBolha em {
+  color: var(--cor-creme-suave);
+  font-style: italic;
+}
+
+.textoBolha table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+  display: block;
+  overflow-x: auto;
+}
+
+.textoBolha th {
+  font-family: var(--fonte-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cor-laranja);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--cor-borda);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.textoBolha td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(30, 50, 72, 0.5);
+  color: var(--cor-creme-suave);
+}
+
+.textoBolha hr {
+  border: none;
+  border-top: 1px solid var(--cor-borda);
+  margin: 0.75rem 0;
+}
+
+.textoBolha code {
+  font-family: var(--fonte-mono);
+  font-size: 0.85rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  color: var(--cor-laranja);
+}

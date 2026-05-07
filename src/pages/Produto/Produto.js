@@ -15,19 +15,22 @@ function Produto() {
   }, []);
 
   async function carregarProdutos() {
+  try {
+    const ativos = await ProdutoService.listarAsync(true);
+    setProdutos(ativos);
+
     try {
-      const [ativos, baixo] = await Promise.all([
-        ProdutoService.listarAsync(true),
-        ProdutoService.estoqueBaixoAsync(5),
-      ]);
-      setProdutos(ativos);
+      const baixo = await ProdutoService.estoqueBaixoAsync(5);
       setEstoqueBaixo(baixo);
-    } catch (err) {
-      console.error("Erro ao carregar produtos:", err);
-    } finally {
-      setCarregando(false);
+    } catch {
+      setEstoqueBaixo([]);
     }
+  } catch (err) {
+    console.error("Erro ao carregar produtos:", err);
+  } finally {
+    setCarregando(false);
   }
+}
 
   async function handleDeletar(id, nome) {
     if (!window.confirm(`Desativar o produto "${nome}"?`)) return;
