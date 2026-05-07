@@ -35,6 +35,11 @@ const UsuarioService = {
     const response = await HTTPClient.put(`/Usuario/Restaurar/${usuarioId}`);
     return response.data;
   },
+
+  async totalGastoAsync(usuarioId) {
+    const response = await HTTPClient.get(`/Usuario/TotalGasto/${usuarioId}`);
+    return response.data;
+  },
 };
 
 export default UsuarioService;
